@@ -1,0 +1,40 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    circuitbreakers:
+      enabled: true
+resilience4j:
+  circuitbreaker:
+    instances:
+      product-service:
+        automatic-transition-from-open-to-half-open-enabled: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 5
+        register-health-indicator: true
+        sliding-window-size: 5
+        sliding-window-type: COUNT_BASED
+        wait-duration-in-open-state: 5s
+  timelimiter:
+    instances:
+      product-service:
+        timeout-duration: 2s
+        cancel-running-future: true
+         
+      
+   
+server:
+  port: 1215
